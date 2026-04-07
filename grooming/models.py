@@ -14,13 +14,19 @@ class Client(AbstractUser):
 
 
 class Pet(models.Model):
+    class PetType(models.TextChoices):
+        DOG = "dog", "Собака"
+        CAT = "cat", "Кіт"
     client = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="pets"
     )
     name = models.CharField(max_length=100)
-    type = models.CharField(max_length=100)
+    pet_type = models.CharField(
+        max_length=10,
+        choices=PetType.choices,
+    )
     breed = models.CharField(max_length=100)
 
     def __str__(self):
