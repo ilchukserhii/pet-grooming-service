@@ -48,7 +48,7 @@ class Service(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=8)
 
     def __str__(self):
-        return f"type: {self.type}, price: {self.price}"
+        return self.type
 
 
 class Appointment(models.Model):
@@ -70,10 +70,13 @@ class Appointment(models.Model):
     date_time = models.DateTimeField()
 
     def __str__(self):
-        groomer_name = self.groomer or "No groomer"
+        groomer_name = (
+            f"{self.groomer.first_name} {self.groomer.last_name}"
+            if self.groomer else "No groomer"
+        )
         return (
             f"{self.pet.name} "
-            f"({groomer_name}) "
+            f"with {groomer_name} "
             f"at {self.date_time.strftime('%Y-%m-%d %H:%M')}"
         )
 
