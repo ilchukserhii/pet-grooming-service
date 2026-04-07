@@ -118,4 +118,4 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-AUTH_USER_MODEL = 'grooming.User'
+AUTH_USER_MODEL = 'grooming.Client'
