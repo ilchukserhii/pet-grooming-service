@@ -58,24 +58,34 @@
         <h2 class="mb-0">Наші клієнти</h2>
       </div>
 
-      <div class="row g-4">
+      <div class="col-md-4 col-lg-3">
         {% for pet in our_works %}
-          <div class="col-md-4 col-lg-3">
-            <div class="card h-100 shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title"><strong>Кличка:</strong> {{ pet.name }}</h5>
-                <p class="card-text mb-1">
-                  <strong>Тип:</strong> {{ pet.get_pet_type_display }}
-                </p>
-                <p class="card-text mb-1">
-                  <strong>Порода:</strong> {{ pet.breed }}
-                </p>
-              </div>
-            </div>
+        <div class="card h-100 shadow-sm">
+
+          <!-- Фото -->
+          <div
+            class="bg-secondary-subtle border-bottom d-flex align-items-center justify-content-center text-muted fw-semibold"
+            style="height: 140px;"
+          >
+            Фото
           </div>
-        {% empty %}
-          <p>Поки що немає завершених записів.</p>
-        {% endfor %}
+
+          <!-- Контент -->
+          <div class="card-body">
+            <h5 class="card-title">
+              <strong>Кличка:</strong> {{ pet.name }}
+            </h5>
+
+            <p class="card-text mb-1">
+              <strong>Тип:</strong> {{ pet.get_pet_type_display }}
+            </p>
+
+            <p class="card-text mb-1">
+              <strong>Порода:</strong> {{ pet.breed }}
+            </p>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </section>
