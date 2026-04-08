@@ -1,7 +1,9 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import generic
+from django.views.generic import TemplateView
 
-from grooming.models import Service, Groomer, Pet
+from grooming.models import Service, Groomer, Pet, Appointment
 
 
 def index(request):
@@ -26,3 +28,21 @@ class GroomerListView(generic.ListView):
     context_object_name = "groomers"
     queryset = Groomer.objects.prefetch_related("service").distinct()
     paginate_by = 4
+
+
+class CabinetView(LoginRequiredMixin, TemplateView):
+    template_name = "grooming/cabinet.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client = self.request.user
+        pets = client.pets.all()
+        appointments_for_client = Appointment.objects.filter(
+            pet__client=client
+        ).select_related("pet", "groomer").prefetch_related("service")
+
+        context["client"] = client
+        context["pets"] = pets
+        context["appointments"] = appointments_for_client
+
+        return context
