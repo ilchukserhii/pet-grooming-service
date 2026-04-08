@@ -11,11 +11,13 @@
   >
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100 bg-light">
 {% block nav %}
   {% include "includes/navbar.html"%}
 {% endblock %}
-{% block content %}{% endblock %}
+<main class="flex-grow-1">
+  {% block content %}{% endblock %}
+</main>
 {% block footer %}
 	{% include "includes/footer.html" %}
 {% endblock %}
