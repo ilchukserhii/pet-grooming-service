@@ -6,11 +6,32 @@ from grooming.models import Groomer, Pet, Service, Appointment, Client
 
 @admin.register(Client)
 class ClientAdmin(UserAdmin):
+    list_display = UserAdmin.list_display + ("phone_number",)
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (
+            "Personal info",
+            {"fields": ("first_name", "last_name", "email", "phone_number")},
+        ),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+            },
+        ),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
+    )
     add_fieldsets = UserAdmin.add_fieldsets + (
         (
             None,
             {
-                "fields": ("first_name", "last_name",),
+                "fields": ("first_name", "last_name", "phone_number"),
             }
         ),
         (
@@ -45,7 +66,7 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ["date_time", "groomer", "pet"]
-    list_filter = ["date_time"]
+    list_display = ["date_time", "groomer", "pet", "is_completed"]
+    list_filter = ["date_time", "is_completed"]
     search_fields = ["groomer__first_name", "groomer__last_name", "pet__name"]
 
