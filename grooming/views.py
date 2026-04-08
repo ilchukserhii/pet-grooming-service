@@ -19,3 +19,10 @@ class ServiceListView(generic.ListView):
     model = Service
     context_object_name = "services"
     paginate_by = 4
+
+
+class GroomerListView(generic.ListView):
+    model = Groomer
+    context_object_name = "groomers"
+    queryset = Groomer.objects.prefetch_related("service").distinct()
+    paginate_by = 4
