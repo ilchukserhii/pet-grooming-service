@@ -5,9 +5,18 @@ from pet_grooming_service import settings
 
 
 class Client(AbstractUser):
+    phone_number = models.CharField(
+        max_length=10,
+        unique=True,
+    )
 
     class Meta:
         ordering = ["first_name", "last_name"]
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = self.phone_number
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -30,7 +39,7 @@ class Pet(models.Model):
     breed = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.name} ({self.breed}) from client {self.client.first_name}"
+        return f"{self.name} ({self.breed}) - клієнт {self.client.first_name}"
 
 
 class Groomer(models.Model):
