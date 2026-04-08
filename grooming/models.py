@@ -68,6 +68,7 @@ class Appointment(models.Model):
         related_name="appointments"
     )
     date_time = models.DateTimeField()
+    is_completed = models.BooleanField(default=False)
 
     def __str__(self):
         groomer_name = (
