@@ -8,7 +8,7 @@
       <div class="card shadow-sm">
         <div class="card-body">
 
-          <h3 class="text-center mb-4">Створити запис</h3>
+          <h3 class="text-center mb-4">{{ object|yesno:"Оновити,Створити" }} запис</h3>
 
           <form method="post">
             {% csrf_token %}
