@@ -134,6 +134,16 @@ class ClientAppointmentCreateView(LoginRequiredMixin, CreateView):
     template_name = "grooming/client_appointment_form.html"
     success_url = reverse_lazy("grooming:cabinet")
 
+    def get_initial(self):
+        initial = super().get_initial()
+        service_id = self.request.GET.get("service")
+        if service_id:
+            initial["service"] = service_id
+        groomer_id = self.request.GET.get("groomer")
+        if groomer_id:
+            initial["groomer"] = groomer_id
+        return initial
+
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields["pet"].queryset = Pet.objects.filter(
