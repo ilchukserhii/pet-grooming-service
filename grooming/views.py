@@ -1,10 +1,14 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, UpdateView
 
+from grooming.forms import UserUpdateForm
 from grooming.models import Service, Groomer, Pet, Appointment
 
+Client = get_user_model()
 
 def index(request):
     our_services = Service.objects.all()
@@ -46,3 +50,13 @@ class CabinetView(LoginRequiredMixin, TemplateView):
         context["appointments"] = appointments_for_client
 
         return context
+
+
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
+    model = Client
+    form_class = UserUpdateForm
+    template_name = "grooming/client_update.html"
+    success_url = reverse_lazy("grooming:cabinet")
+
+    def get_object(self, queryset=None):
+        return self.request.user
