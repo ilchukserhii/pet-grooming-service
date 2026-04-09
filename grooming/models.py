@@ -91,4 +91,3 @@ class Appointment(models.Model):
             f"with {groomer_name} "
             f"at {self.date_time.strftime('%Y-%m-%d %H:%M')}"
         )
-
