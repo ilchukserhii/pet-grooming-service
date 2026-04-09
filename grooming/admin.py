@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from grooming.models import Groomer, Pet, Service, Appointment, Client
+from grooming.models import Groomer, Pet, Service, Appointment, Client, GuestQuickRequest
 
 
 @admin.register(Client)
@@ -70,3 +70,9 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_filter = ["date_time", "is_completed"]
     search_fields = ["groomer__first_name", "groomer__last_name", "pet__name"]
 
+
+@admin.register(GuestQuickRequest)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ["name", "phone_number", "pet_type", "breed", "created_at", "is_processed"]
+    list_filter = ["created_at"]
+    search_fields = ["name", "phone_number"]
