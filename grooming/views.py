@@ -8,10 +8,35 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView, UpdateView, CreateView, DeleteView
 
-from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientAppointmentForm, ClientCreateForm
+from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientAppointmentForm, ClientCreateForm, SearchForm
 from grooming.models import Service, Groomer, Pet, Appointment
 
 Client = get_user_model()
+
+
+class SearchMixin:
+    search_field = None
+    placeholder = ""
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = SearchForm(self.request.GET)
+        form.fields["search"].widget.attrs["placeholder"] = (
+            self.placeholder)
+        context["search_form"] = form
+
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = SearchForm(self.request.GET)
+        if form.is_valid():
+            search = form.cleaned_data["search"]
+            return queryset.filter(
+                **{f"{self.search_field}__icontains": search}
+            )
+        return queryset
+
 
 def index(request):
     our_services = Service.objects.all()
@@ -24,17 +49,21 @@ def index(request):
     }
     return render(request, "grooming/index.html", context=context)
 
-class ServiceListView(generic.ListView):
+class ServiceListView(SearchMixin, generic.ListView):
     model = Service
     context_object_name = "services"
     paginate_by = 4
+    search_field = "type"
+    placeholder = "Пошук за послугою"
 
 
-class GroomerListView(generic.ListView):
+class GroomerListView(SearchMixin, generic.ListView):
     model = Groomer
     context_object_name = "groomers"
     queryset = Groomer.objects.prefetch_related("service").distinct()
     paginate_by = 4
+    search_field = "first_name"
+    placeholder = "Пошук за імя`м"
 
 
 class CabinetView(LoginRequiredMixin, TemplateView):
@@ -165,5 +194,3 @@ class ClientAppointmentDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return Appointment.objects.filter(pet__client=self.request.user)
-
-

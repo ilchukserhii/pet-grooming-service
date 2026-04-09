@@ -48,6 +48,9 @@ class Groomer(models.Model):
     service = models.ManyToManyField("Service")
     description = models.TextField(null=True, blank=True)
 
+    class Meta:
+        ordering = ["first_name", "last_name"]
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -57,6 +60,9 @@ class Service(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=8)
     short_description = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["type"]
 
     def __str__(self):
         return self.type
