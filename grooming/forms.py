@@ -74,3 +74,11 @@ class ClientAppointmentForm(forms.ModelForm):
             if combined < datetime.now():
                 raise forms.ValidationError("Запис повинен бути на майбутнє")
         return cleaned_data
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(
+        max_length=100,
+        required=False,
+        label = "",
+    )
