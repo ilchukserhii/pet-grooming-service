@@ -6,6 +6,7 @@ from grooming.views import (
     GroomerListView,
     CabinetView,
     ClientUpdateView, ClientPetCreateView, ClientPetDeleteView, ClientAppointmentCreateView,
+    ClientAppointmentDeleteView, ClientAppointmentUpdateView,
 )
 
 urlpatterns = [
@@ -25,6 +26,16 @@ urlpatterns = [
         ClientAppointmentCreateView.as_view(),
         name="cabinet-create-appointment"
     ),
+    path(
+        "cabinet/appointments/<int:pk>/delete/",
+        ClientAppointmentDeleteView.as_view(),
+        name="cabinet-delete-appointment"
+    ),
+    path(
+        "cabinet/appointments/<int:pk>/update/",
+        ClientAppointmentUpdateView.as_view(),
+        name="cabinet-update-appointment"
+    )
 ]
 
 

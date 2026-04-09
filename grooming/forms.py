@@ -31,7 +31,7 @@ class ClientPetCreateForm(forms.ModelForm):
         fields = ["name", "pet_type", "breed"]
 
 
-class ClientCreateAppointmentForm(forms.ModelForm):
+class ClientAppointmentForm(forms.ModelForm):
     pet = forms.ModelChoiceField(
         queryset=Pet.objects.none(),
         required=True)

@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView, UpdateView, CreateView, DeleteView
 
-from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientCreateAppointmentForm
+from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientAppointmentForm
 from grooming.models import Service, Groomer, Pet, Appointment
 
 Client = get_user_model()
@@ -89,8 +89,8 @@ class ClientPetDeleteView(LoginRequiredMixin, DeleteView):
 
 class ClientAppointmentCreateView(LoginRequiredMixin, CreateView):
     model = Appointment
-    form_class = ClientCreateAppointmentForm
-    template_name = "grooming/client_create_appointment.html"
+    form_class = ClientAppointmentForm
+    template_name = "grooming/client_appointment_form.html"
     success_url = reverse_lazy("grooming:cabinet")
 
     def get_form(self, form_class=None):
@@ -110,5 +110,48 @@ class ClientAppointmentCreateView(LoginRequiredMixin, CreateView):
         form.save_m2m()
         self.object = appointment
         return HttpResponseRedirect(self.get_success_url())
+
+
+class ClientAppointmentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Appointment
+    form_class = ClientAppointmentForm
+    template_name = "grooming/client_appointment_form.html"
+    success_url = reverse_lazy("grooming:cabinet")
+
+    def get_queryset(self):
+        return Appointment.objects.filter(pet__client=self.request.user)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["pet"].queryset = Pet.objects.filter(
+            client=self.request.user
+        )
+        return form
+
+    def form_valid(self, form):
+        appointment = form.save(commit=False)
+        appointment.date_time = datetime.combine(
+            form.cleaned_data["appointment_date"],
+            form.cleaned_data["appointment_time"],
+        )
+        appointment.save()
+        form.save_m2m()
+        self.object = appointment
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["appointment_date"] = self.object.date_time.date()
+        initial["appointment_time"] = self.object.date_time.time()
+        return initial
+
+
+class ClientAppointmentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Appointment
+    template_name = "grooming/client_appointment_delete.html"
+    success_url = reverse_lazy("grooming:cabinet")
+
+    def get_queryset(self):
+        return Appointment.objects.filter(pet__client=self.request.user)
 
 
