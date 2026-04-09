@@ -1,11 +1,14 @@
+from datetime import datetime
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView, UpdateView, CreateView, DeleteView
 
-from grooming.forms import ClientUpdateForm, ClientPetCreateForm
+from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientCreateAppointmentForm
 from grooming.models import Service, Groomer, Pet, Appointment
 
 Client = get_user_model()
@@ -82,3 +85,30 @@ class ClientPetDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return Pet.objects.filter(client=self.request.user)
+
+
+class ClientAppointmentCreateView(LoginRequiredMixin, CreateView):
+    model = Appointment
+    form_class = ClientCreateAppointmentForm
+    template_name = "grooming/client_create_appointment.html"
+    success_url = reverse_lazy("grooming:cabinet")
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["pet"].queryset = Pet.objects.filter(
+            client=self.request.user
+        )
+        return form
+
+    def form_valid(self, form):
+        appointment = form.save(commit=False)
+        appointment.date_time = datetime.combine(
+            form.cleaned_data["appointment_date"],
+            form.cleaned_data["appointment_time"],
+        )
+        appointment.save()
+        form.save_m2m()
+        self.object = appointment
+        return HttpResponseRedirect(self.get_success_url())
+
+

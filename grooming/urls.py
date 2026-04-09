@@ -5,7 +5,7 @@ from grooming.views import (
     ServiceListView,
     GroomerListView,
     CabinetView,
-    ClientUpdateView, ClientPetCreateView, ClientPetDeleteView,
+    ClientUpdateView, ClientPetCreateView, ClientPetDeleteView, ClientAppointmentCreateView,
 )
 
 urlpatterns = [
@@ -15,7 +15,16 @@ urlpatterns = [
     path("cabinet/", CabinetView.as_view(), name="cabinet"),
     path("cabinet/update/", ClientUpdateView.as_view(), name="cabinet-update"),
     path("cabinet/add_pet/", ClientPetCreateView.as_view(), name="cabinet-add-pet"),
-    path("cabinet/pets/<int:pk>/delete_pet/", ClientPetDeleteView.as_view(), name="cabinet-delete-pet"),
+    path(
+        "cabinet/pets/<int:pk>/delete_pet/",
+        ClientPetDeleteView.as_view(),
+        name="cabinet-delete-pet"
+    ),
+    path(
+        "cabinet/create_appointment/",
+        ClientAppointmentCreateView.as_view(),
+        name="cabinet-create-appointment"
+    ),
 ]
 
 

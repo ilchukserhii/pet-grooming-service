@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from datetime import datetime
 
-from grooming.models import Pet
+from grooming.models import Pet, Appointment, Service, Groomer
 
 
 class ClientUpdateForm(forms.ModelForm):
@@ -28,3 +29,39 @@ class ClientPetCreateForm(forms.ModelForm):
     class Meta:
         model = Pet
         fields = ["name", "pet_type", "breed"]
+
+
+class ClientCreateAppointmentForm(forms.ModelForm):
+    pet = forms.ModelChoiceField(
+        queryset=Pet.objects.none(),
+        required=True)
+    service = forms.ModelMultipleChoiceField(
+        queryset=Service.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )
+    groomer = forms.ModelChoiceField(
+        queryset=Groomer.objects.all(),
+        required=True)
+    appointment_date = forms.DateField(
+        required=True,
+        widget=forms.DateInput(attrs={"type": "date"}),
+    )
+    appointment_time = forms.TimeField(
+        required=True,
+        widget=forms.TimeInput(attrs={"type": "time"}),
+    )
+
+    class Meta:
+        model = Appointment
+        fields = ["pet", "service", "groomer",]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        date = cleaned_data.get("appointment_date")
+        time = cleaned_data.get("appointment_time")
+        if date and time:
+            combined = datetime.combine(date, time)
+            if combined < datetime.now():
+                raise forms.ValidationError("Запис повинен бути на майбутнє")
+        return cleaned_data
