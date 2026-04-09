@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 
 class UserUpdateForm(forms.ModelForm):
+    phone_number = forms.CharField(max_length=10, required=True)
     class Meta:
         model = get_user_model()
         fields = ["first_name", "last_name", "email", "phone_number"]
