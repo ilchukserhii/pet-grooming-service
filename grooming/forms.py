@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
+from grooming.models import Pet
 
-class UserUpdateForm(forms.ModelForm):
+
+class ClientUpdateForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=10, required=True)
     class Meta:
         model = get_user_model()
@@ -18,3 +20,11 @@ class UserUpdateForm(forms.ModelForm):
             raise forms.ValidationError("Номер повинен починатися с 0")
 
         return phone
+
+
+class ClientPetCreateForm(forms.ModelForm):
+    name = forms.CharField(max_length=100, required=True)
+    breed = forms.CharField(max_length=100, required=True)
+    class Meta:
+        model = Pet
+        fields = ["name", "pet_type", "breed"]

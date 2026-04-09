@@ -3,9 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, CreateView, DeleteView
 
-from grooming.forms import UserUpdateForm
+from grooming.forms import ClientUpdateForm, ClientPetCreateForm
 from grooming.models import Service, Groomer, Pet, Appointment
 
 Client = get_user_model()
@@ -54,9 +54,31 @@ class CabinetView(LoginRequiredMixin, TemplateView):
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
-    form_class = UserUpdateForm
+    form_class = ClientUpdateForm
     template_name = "grooming/client_update.html"
     success_url = reverse_lazy("grooming:cabinet")
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class ClientPetCreateView(LoginRequiredMixin, CreateView):
+    model = Pet
+    form_class = ClientPetCreateForm
+    template_name = "grooming/client_pet_add.html"
+    success_url = reverse_lazy("grooming:cabinet")
+
+    def form_valid(self, form):
+        pet = form.save(commit=False)
+        pet.client = self.request.user
+        pet.save()
+        return super().form_valid(form)
+
+
+class ClientPetDeleteView(LoginRequiredMixin, DeleteView):
+    model = Pet
+    template_name = "grooming/client_pet_delete.html"
+    success_url = reverse_lazy("grooming:cabinet")
+
+    def get_queryset(self):
+        return Pet.objects.filter(client=self.request.user)

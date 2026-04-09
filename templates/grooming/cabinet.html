@@ -43,7 +43,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="mb-0">Мої улюбленці</h5>
-          <a href="#" class="btn btn-sm btn-primary">
+          <a href="{% url 'grooming:cabinet-add-pet' %}" class="btn btn-sm btn-primary">
             + Додати
           </a>
         </div>
@@ -52,10 +52,14 @@
           <ul class="list-group">
             {% for pet in pets %}
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ pet.name }}
-                <span class="badge bg-secondary">
-                  {{ pet.get_pet_type_display }}
-                </span>
+                <span>{{ pet.name }}</span>
+
+                <div class="d-flex align-items-center gap-3">
+                  <span class="badge bg-secondary">
+                    {{ pet.get_pet_type_display }}
+                  </span>
+                  <a href="{% url "grooming:cabinet-delete-pet" pet.pk %}" class="text-danger">Прибрати</a>
+                </div>
               </li>
             {% endfor %}
           </ul>
