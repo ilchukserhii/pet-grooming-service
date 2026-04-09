@@ -2,7 +2,16 @@ from django import forms
 from django.contrib.auth import get_user_model
 from datetime import datetime
 
+from django.contrib.auth.forms import UserCreationForm
+
 from grooming.models import Pet, Appointment, Service, Groomer
+
+
+class ClientCreateForm(UserCreationForm):
+    phone_number = forms.CharField(max_length=10, required=True)
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()
+        fields = ("phone_number", "first_name", "last_name", "email")
 
 
 class ClientUpdateForm(forms.ModelForm):

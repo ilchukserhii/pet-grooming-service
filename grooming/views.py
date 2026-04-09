@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView, UpdateView, CreateView, DeleteView
 
-from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientAppointmentForm
+from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientAppointmentForm, ClientCreateForm
 from grooming.models import Service, Groomer, Pet, Appointment
 
 Client = get_user_model()
@@ -53,6 +53,18 @@ class CabinetView(LoginRequiredMixin, TemplateView):
         context["appointments"] = appointments_for_client
 
         return context
+
+
+class ClientCreateView(CreateView):
+    model = Client
+    form_class = ClientCreateForm
+    template_name = "grooming/client_create.html"
+    success_url = reverse_lazy("grooming:cabinet")
+
+    def form_valid(self, form):
+        self.object = form.save()
+        login(self.request, self.object)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
