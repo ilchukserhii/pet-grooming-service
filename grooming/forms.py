@@ -3,8 +3,9 @@ from django.contrib.auth import get_user_model
 from datetime import datetime
 
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
-from grooming.models import Pet, Appointment, Service, Groomer
+from grooming.models import Pet, Appointment, Service, Groomer, GuestQuickRequest
 
 
 class ClientCreateForm(UserCreationForm):
@@ -16,6 +17,7 @@ class ClientCreateForm(UserCreationForm):
 
 class ClientUpdateForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=10, required=True)
+
     class Meta:
         model = get_user_model()
         fields = ["first_name", "last_name", "email", "phone_number"]
@@ -82,3 +84,29 @@ class SearchForm(forms.Form):
         required=False,
         label = "",
     )
+
+class GuestForm(forms.ModelForm):
+    phone_number = forms.CharField(
+        max_length=10,
+        label="Телефон",
+        required=True)
+
+    class Meta:
+        model = GuestQuickRequest
+        fields = ["phone_number", "name", "pet_type", "breed"]
+        labels = {
+            "name": "Ім'я",
+            "pet_type": "Тип улюбленця",
+            "breed": "Порода",
+        }
+
+    def clean_phone_number(self):
+        phone = self.cleaned_data.get("phone_number")
+
+        if not phone:
+            return phone
+
+        if not phone.startswith("0"):
+            raise forms.ValidationError("Номер повинен починатися с 0")
+
+        return phone

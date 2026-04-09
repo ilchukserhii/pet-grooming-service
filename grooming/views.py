@@ -8,7 +8,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView, UpdateView, CreateView, DeleteView
 
-from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientAppointmentForm, ClientCreateForm, SearchForm
+from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientAppointmentForm, ClientCreateForm, SearchForm, \
+    GuestForm
 from grooming.models import Service, Groomer, Pet, Appointment
 
 Client = get_user_model()
@@ -43,10 +44,32 @@ def index(request):
     our_works = Pet.objects.filter(
         appointments__is_completed=True
     ).distinct()
+    form = GuestForm
     context = {
         "our_services": our_services,
         "our_works": our_works,
+        "form": form,
     }
+    if request.user.is_authenticated:
+        client = request.user
+        client_completed_appointments = Appointment.objects.filter(
+            pet__client=client, is_completed=True
+        ).count()
+        client_incompleted_appointments = Appointment.objects.filter(
+            pet__client=client, is_completed=False
+        ).count()
+        context.update(
+            {
+                "client_completed_appointments": client_completed_appointments,
+                "client_incompleted_appointments": client_incompleted_appointments,
+            }
+        )
+    success_url = reverse_lazy("grooming:index")
+    if request.method == "POST":
+        form = GuestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(success_url)
     return render(request, "grooming/index.html", context=context)
 
 class ServiceListView(SearchMixin, generic.ListView):
