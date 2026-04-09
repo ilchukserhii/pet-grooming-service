@@ -97,3 +97,22 @@ class Appointment(models.Model):
             f"with {groomer_name} "
             f"at {self.date_time.strftime('%Y-%m-%d %H:%M')}"
         )
+
+class GuestQuickRequest(models.Model):
+    class PetType(models.TextChoices):
+        DOG = "dog", "Собака"
+        CAT = "cat", "Кіт"
+    phone_number = models.CharField(
+        max_length=10,
+    )
+    name = models.CharField(max_length=20)
+    pet_type = models.CharField(
+        max_length=10,
+        choices=PetType.choices,
+    )
+    breed = models.CharField(max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_processed = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["-created_at"]
