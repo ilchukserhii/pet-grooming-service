@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <section class="py-5 border-bottom for-image">
+    <div class="container">
+      <div class="row align-items-center justify-content-between gx-5">
+        <div class="col-md-5">
+          <h1 class="display-5 fw-bold">Догляд за вашими улюбленцями</h1>
+          <p class="lead text-muted">
+            Акуратний грумінг, турбота та комфорт
+          </p>
+        </div>
+
+        <div class="col-md-5">
+          <div class="card shadow-sm h-100" style="min-height: 430px;">
+            <div class="card-body d-flex flex-column justify-content-center p-4">
+              {% if user.is_authenticated %}
+                <h4 class="fw-bold mb-2">
+                  Доброго дня, {% if user.first_name %}{{ user.first_name }}{% else %}Шановний клієнт{% endif %}
+                </h4>
+                <div class="card-body p-4 d-flex flex-column justify-content-center">
+                  <p class="text-muted mb-3">Ваш особистий кабінет завжди під рукою</p>
+
+                  <div class="row g-3 mb-3">
+                    <div class="col-6">
+                      <div class="border rounded-3 p-3 text-center">
+                        <div class="small text-muted mb-1">Активні записи</div>
+                        <div class="fs-4 fw-bold">{{ client_completed_appointments }}</div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="border rounded-3 p-3 text-center">
+                        <div class="small text-muted mb-1">Завершені записи</div>
+                        <div class="fs-4 fw-bold">{{ client_incompleted_appointments }}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="{% url 'grooming:cabinet' %}" class="btn btn-primary w-100 mt-2">
+                    Переглянути записи
+                  </a>
+                </div>
+              {% else %}
+                <h4 class="fw-bold mb-3">Швидкий запис</h4>
+                <p class="text-muted mb-2">Залиште коротку заявку, і ми зв’яжемося з вами найближчим часом</p>
+
+                <form method="POST" class="d-flex flex-column h-100">
+                  {% csrf_token %}
+                  {{ form|crispy }}
+                  <div class="mt-auto">
+                    <input type="submit" value="Записатися" class="btn btn-primary w-100">
+                  </div>
+                </form>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="mb-4">Наші послуги</h2>
+      <div class="row g-4">
+        {% for service in our_services %}
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">{{ service.type }}</h5>
+                <p class="card-text text-muted">
+                  Ціна: {{ service.price }}
+                </p>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p>Послуги ще не додані.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  </section>
+
+  <section class="py-5 bg-white border-top border-bottom">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Наші клієнти</h2>
+      </div>
+
+      <div class="col-md-4 col-lg-3">
+        {% for pet in our_works %}
+          <div class="card h-100 shadow-sm">
+
+          <!-- Фото -->
+          <img
+              src="{% static 'images/1.jpg' %}"
+              class="card-img-top"
+              style="height: 140px; object-fit: cover;"
+              alt="pet photo"
+          >
+          <!-- Контент -->
+          <div class="card-body">
+            <h5 class="card-title">
+              <strong>Кличка:</strong> {{ pet.name }}
+            </h5>
+
+            <p class="card-text mb-1">
+              <strong>Тип:</strong> {{ pet.get_pet_type_display }}
+            </p>
+
+            <p class="card-text mb-1">
+              <strong>Порода:</strong> {{ pet.breed }}
+            </p>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="mb-4">Мій персональний кабінет</h1>
+      <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-outline-danger" value="Вийти">
+      </form>
+    </div>
+
+    <!-- Персональные данные -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">Персональні дані</h5>
+          <a href="{% url 'grooming:cabinet-update' %}" class="btn btn-sm btn-outline-primary">
+            ✏️ Змінити
+          </a>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Ім’я:</strong> {{ client.first_name|default:"-" }}
+          </li>
+          <li class="list-group-item">
+            <strong>Прізвище:</strong> {{ client.last_name|default:"-" }}
+          </li>
+          <li class="list-group-item">
+            <strong>Email:</strong> {{ client.email }}
+          </li>
+          <li class="list-group-item">
+            <strong>Телефон:</strong> {{ client.phone_number }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Питомцы -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">Мої улюбленці</h5>
+          <a href="{% url 'grooming:cabinet-add-pet' %}" class="btn btn-sm btn-primary">
+            + Додати
+          </a>
+        </div>
+
+        {% if pets %}
+          <ul class="list-group">
+            {% for pet in pets %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ pet.name }}</span>
+
+                <div class="d-flex align-items-center gap-3">
+                  <span class="badge bg-secondary">
+                    {{ pet.get_pet_type_display }}
+                  </span>
+                  <a href="{% url "grooming:cabinet-delete-pet" pet.pk %}" class="text-danger">Прибрати</a>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted mb-0">
+            У вас поки немає улюбленців —
+            <a href="#">додати?</a>
+          </p>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="mb-0">Мої записи</h2>
+      <a href="{% url "grooming:cabinet-create-appointment" %}" class="btn btn-primary">
+        + Додати запис
+      </a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+        <tr>
+          <th>Улюбленець</th>
+          <th>Процедури</th>
+          <th>Грумер</th>
+          <th>Дата</th>
+          <th>Статус</th>
+          <th class="text-end">Дії</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for appointment in appointments %}
+          <tr>
+            <td>{{ appointment.pet.name }}</td>
+
+            <td>
+              {% for service in appointment.service.all %}
+                <span class="badge bg-secondary">
+                  {{ service.type }}
+                </span>
+              {% endfor %}
+            </td>
+
+            <td>
+              {% if appointment.groomer %}
+                {{ appointment.groomer.first_name }} {{ appointment.groomer.last_name }}
+              {% else %}
+                <span class="text-muted">Не призначено</span>
+              {% endif %}
+            </td>
+
+            <td>
+              {{ appointment.date_time|date:"d.m.Y H:i" }}
+            </td>
+
+            <td>
+              {% if appointment.is_completed %}
+                <span class="text-success">Завершено</span>
+              {% else %}
+                <span class="text-danger">Активна</span>
+              {% endif %}
+            </td>
+
+            <td class="text-end">
+              <a href="{% url "grooming:cabinet-update-appointment" appointment.pk %}"
+                 class="btn btn-sm btn-outline-primary me-1">
+                ✏️
+              </a>
+              <a href="{% url "grooming:cabinet-delete-appointment" appointment.pk %}"
+                 class="btn btn-sm btn-outline-danger">
+                🗑
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5" class="text-center text-muted">
+              У вас поки немає записів
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+{% endblock %}
