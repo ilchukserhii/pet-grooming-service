@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from datetime import datetime
 
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 
 from grooming.models import Pet, Appointment, Service, Groomer, GuestQuickRequest
 

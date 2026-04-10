@@ -93,7 +93,6 @@ class PrivateAccessViewTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-
 class SearchViewTests(TestCase):
     def test_search_services(self):
         service1 = Service.objects.create(
@@ -134,4 +133,3 @@ class SearchViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(groomer1, response.context["groomers"])
         self.assertNotIn(groomer2, response.context["groomers"])
-
