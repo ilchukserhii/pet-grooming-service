@@ -98,6 +98,7 @@ class Appointment(models.Model):
             f"at {self.date_time.strftime('%Y-%m-%d %H:%M')}"
         )
 
+
 class GuestQuickRequest(models.Model):
     class PetType(models.TextChoices):
         DOG = "dog", "Собака"

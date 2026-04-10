@@ -4,14 +4,35 @@ from datetime import datetime
 
 from django.contrib.auth.forms import UserCreationForm
 
-from grooming.models import Pet, Appointment, Service, Groomer, GuestQuickRequest
+from grooming.models import (
+    Pet,
+    Appointment,
+    Service,
+    Groomer,
+    GuestQuickRequest
+)
+
+
+def clean_phone_number(phone: str) -> str:
+    if not phone:
+        return phone
+
+    if not phone.startswith("0"):
+        raise forms.ValidationError("Номер повинен починатися с 0")
+
+    return phone
 
 
 class ClientCreateForm(UserCreationForm):
     phone_number = forms.CharField(max_length=10, required=True)
+
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = ("phone_number", "first_name", "last_name", "email")
+
+    def clean_phone_number(self):
+        phone = self.cleaned_data.get("phone_number")
+        return clean_phone_number(phone)
 
 
 class ClientUpdateForm(forms.ModelForm):
@@ -23,19 +44,13 @@ class ClientUpdateForm(forms.ModelForm):
 
     def clean_phone_number(self):
         phone = self.cleaned_data.get("phone_number")
-
-        if not phone:
-            return phone
-
-        if not phone.startswith("0"):
-            raise forms.ValidationError("Номер повинен починатися с 0")
-
-        return phone
+        return clean_phone_number(phone)
 
 
 class ClientPetCreateForm(forms.ModelForm):
     name = forms.CharField(max_length=100, required=True)
     breed = forms.CharField(max_length=100, required=True)
+
     class Meta:
         model = Pet
         fields = ["name", "pet_type", "breed"]
@@ -46,12 +61,12 @@ class ClientAppointmentForm(forms.ModelForm):
         queryset=Pet.objects.none(),
         required=True)
     service = forms.ModelMultipleChoiceField(
-        queryset=Service.objects.all(),
+        queryset=Service.objects.all().order_by("type"),
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
     groomer = forms.ModelChoiceField(
-        queryset=Groomer.objects.all(),
+        queryset=Groomer.objects.all().order_by("first_name", "last_name"),
         required=True)
     appointment_date = forms.DateField(
         required=True,
@@ -81,8 +96,9 @@ class SearchForm(forms.Form):
     search = forms.CharField(
         max_length=100,
         required=False,
-        label = "",
+        label="",
     )
+
 
 class GuestForm(forms.ModelForm):
     phone_number = forms.CharField(
@@ -101,11 +117,4 @@ class GuestForm(forms.ModelForm):
 
     def clean_phone_number(self):
         phone = self.cleaned_data.get("phone_number")
-
-        if not phone:
-            return phone
-
-        if not phone.startswith("0"):
-            raise forms.ValidationError("Номер повинен починатися с 0")
-
-        return phone
+        return clean_phone_number(phone)

@@ -6,11 +6,23 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import TemplateView, UpdateView, CreateView, DeleteView
+from django.views.generic import (
+    TemplateView,
+    UpdateView,
+    CreateView,
+    DeleteView
+)
 
-from grooming.forms import ClientUpdateForm, ClientPetCreateForm, ClientAppointmentForm, ClientCreateForm, SearchForm, \
+from grooming.forms import (
+    ClientUpdateForm,
+    ClientPetCreateForm,
+    ClientAppointmentForm,
+    ClientCreateForm,
+    SearchForm,
     GuestForm
+)
 from grooming.models import Service, Groomer, Pet, Appointment
+
 
 Client = get_user_model()
 
@@ -39,6 +51,19 @@ class SearchMixin:
         return queryset
 
 
+class AppointmentFormSaveMixin:
+    def save_appointment_form(self, form):
+        appointment = form.save(commit=False)
+        appointment.date_time = datetime.combine(
+            form.cleaned_data["appointment_date"],
+            form.cleaned_data["appointment_time"],
+        )
+        appointment.save()
+        form.save_m2m()
+        self.object = appointment
+        return super().form_valid(form)
+
+
 def index(request):
     our_services = Service.objects.all()
     our_works = Pet.objects.filter(
@@ -60,8 +85,10 @@ def index(request):
         ).count()
         context.update(
             {
-                "client_completed_appointments": client_completed_appointments,
-                "client_incompleted_appointments": client_incompleted_appointments,
+                "client_completed_appointments":
+                    client_completed_appointments,
+                "client_incompleted_appointments":
+                    client_incompleted_appointments,
             }
         )
     success_url = reverse_lazy("grooming:index")
@@ -71,6 +98,7 @@ def index(request):
             form.save()
             return HttpResponseRedirect(success_url)
     return render(request, "grooming/index.html", context=context)
+
 
 class ServiceListView(SearchMixin, generic.ListView):
     model = Service
@@ -151,7 +179,11 @@ class ClientPetDeleteView(LoginRequiredMixin, DeleteView):
         return Pet.objects.filter(client=self.request.user)
 
 
-class ClientAppointmentCreateView(LoginRequiredMixin, CreateView):
+class ClientAppointmentCreateView(
+    LoginRequiredMixin,
+    AppointmentFormSaveMixin,
+    CreateView
+):
     model = Appointment
     form_class = ClientAppointmentForm
     template_name = "grooming/client_appointment_form.html"
@@ -175,18 +207,14 @@ class ClientAppointmentCreateView(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        appointment = form.save(commit=False)
-        appointment.date_time = datetime.combine(
-            form.cleaned_data["appointment_date"],
-            form.cleaned_data["appointment_time"],
-        )
-        appointment.save()
-        form.save_m2m()
-        self.object = appointment
-        return HttpResponseRedirect(self.get_success_url())
+        return self.save_appointment_form(form)
 
 
-class ClientAppointmentUpdateView(LoginRequiredMixin, UpdateView):
+class ClientAppointmentUpdateView(
+    LoginRequiredMixin,
+    AppointmentFormSaveMixin,
+    UpdateView
+):
     model = Appointment
     form_class = ClientAppointmentForm
     template_name = "grooming/client_appointment_form.html"
@@ -203,20 +231,14 @@ class ClientAppointmentUpdateView(LoginRequiredMixin, UpdateView):
         return form
 
     def form_valid(self, form):
-        appointment = form.save(commit=False)
-        appointment.date_time = datetime.combine(
-            form.cleaned_data["appointment_date"],
-            form.cleaned_data["appointment_time"],
-        )
-        appointment.save()
-        form.save_m2m()
-        self.object = appointment
-        return HttpResponseRedirect(self.get_success_url())
+        return self.save_appointment_form(form)
 
     def get_initial(self):
         initial = super().get_initial()
         initial["appointment_date"] = self.object.date_time.date()
-        initial["appointment_time"] = self.object.date_time.time()
+        initial["appointment_time"] = (
+            self.object.date_time.time().replace(microsecond=0)
+        )
         return initial
 
 
