@@ -72,7 +72,7 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(GuestQuickRequest)
-class ClientAdmin(admin.ModelAdmin):
+class GuestQuickRequestAdmin(admin.ModelAdmin):
     list_display = ["name", "phone_number", "pet_type", "breed", "created_at", "is_processed"]
     list_filter = ["created_at"]
     search_fields = ["name", "phone_number"]
