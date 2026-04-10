@@ -90,12 +90,12 @@ class Appointment(models.Model):
     def __str__(self):
         groomer_name = (
             f"{self.groomer.first_name} {self.groomer.last_name}"
-            if self.groomer else "No groomer"
+            if self.groomer else "Не маэ грумера"
         )
         return (
             f"{self.pet.name} "
-            f"with {groomer_name} "
-            f"at {self.date_time.strftime('%Y-%m-%d %H:%M')}"
+            f"з {groomer_name} "
+            f"на {self.date_time.strftime('%Y-%m-%d %H:%M')}"
         )
 
 
