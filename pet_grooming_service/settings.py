@@ -123,6 +123,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 AUTH_USER_MODEL = 'grooming.Client'
 
 LOGIN_REDIRECT_URL = '/cabinet/'
