@@ -1,27 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="card shadow-sm border-0">
-        <div class="card-body text-center p-4">
-          <h3 class="mb-3">Видалити поточний запис?</h3>
-          <p class="text-muted mb-4">
-            Ви дійсно хочете відмінити цей запис?
-          </p>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <h3 class="mb-3">Видалити поточний запис?</h3>
+            <p class="text-muted mb-4">
+              Ви дійсно хочете відмінити цей запис?
+            </p>
 
-          <form method="post" class="d-grid gap-2">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">
-              Так, видалити
-            </button>
-            <a href="{% url 'grooming:cabinet' %}" class="btn btn-outline-secondary">
-              Повернутись до кабінету
-            </a>
-          </form>
+            <form method="post" class="d-grid gap-2">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">
+                Так, видалити
+              </button>
+              <a href="{% url 'grooming:cabinet' %}" class="btn btn-outline-secondary">
+                Повернутись до кабінету
+              </a>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

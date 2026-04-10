@@ -2,30 +2,30 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="card shadow-sm">
-        <div class="card-body">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm">
+          <div class="card-body">
 
-          <h3 class="text-center mb-4">Оновити профіль</h3>
+            <h3 class="text-center mb-4">Оновити профіль</h3>
 
-          <form method="post">
-            {% csrf_token %}
+            <form method="post">
+              {% csrf_token %}
 
-            {{ form|crispy }}
+              {{ form|crispy }}
 
-            <button type="submit" class="btn btn-primary w-100 mt-3">
-              Зберегти зміни
-            </button>
-            <a href="{% url 'grooming:cabinet' %}" class="btn btn-outline-secondary w-100 mt-2">
-              Назад до кабінету
-            </a>
-          </form>
+              <button type="submit" class="btn btn-primary w-100 mt-3">
+                Зберегти зміни
+              </button>
+              <a href="{% url 'grooming:cabinet' %}" class="btn btn-outline-secondary w-100 mt-2">
+                Назад до кабінету
+              </a>
+            </form>
 
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
