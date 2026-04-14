@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from pet_grooming_service import settings
+from django.conf import settings
 
 
 class Client(AbstractUser):
