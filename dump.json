@@ -1,0 +1,396 @@
+[
+{
+    "model": "grooming.client",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$iZqfSEHTyFosDqkNI9RyAF$josMx0Lw/5Ao/xyR8OZnNA5SNmoNR4e5sjp2rX4hvvg=",
+        "last_login": "2026-04-12T08:09:41.336Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "Сергій",
+        "last_name": "Ільчук",
+        "email": "admin@admin.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-04-07T14:27:50Z",
+        "phone_number": "0503334499",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "grooming.client",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$9GlHgRWx3GPQBj1231e4JR$XpXI/mfL7FRlGd+7H77sDY1l9fCCsmpokXzUEOaxXig=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "tanya_test",
+        "first_name": "Татьяна",
+        "last_name": "Иванова",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-04-07T14:58:47Z",
+        "phone_number": "0501234565",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "grooming.client",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$DeRlTOVs8LXZzqitgFosDX$CB4hVQBTOQEWhrKhkOKb+nj2upUGuT8J1LoyyX+m7YQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "vasya_test",
+        "first_name": "Василий",
+        "last_name": "Пупкин",
+        "email": "vasya@pupkin.net",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-04-07T14:59:33Z",
+        "phone_number": "0501234566",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "grooming.client",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$tOoKk9FuS0RdhHe0TTRdtG$1ZFCtcxk7H9omGB60oMiMnzwckwNhFXmeJfP76rZhos=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "kolya_test",
+        "first_name": "Коля",
+        "last_name": "Вася",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-04-07T15:00:11Z",
+        "phone_number": "0501234562",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "grooming.client",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$AJ5Aky1pQtzONNq8NvAZiM$iebMsTOkhxnbfenIcomo2K94rI9p2wfoj9HtjxnL0PM=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "nadya_test",
+        "first_name": "Надежда",
+        "last_name": "Бабкина",
+        "email": "n@babkina.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-04-07T15:00:58Z",
+        "phone_number": "0501234564",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "grooming.client",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$XgSXVioWMXm0NEkxWO8N6R$7wMbpPFugUvoHD5wRRru2t3bOE6poVhOqsDZcOnLdKE=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "kuklachov",
+        "first_name": "Василий",
+        "last_name": "Куклачов",
+        "email": "kuklachov@cats.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-04-07T15:02:28Z",
+        "phone_number": "0501234563",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "grooming.client",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$QBbqJ0VQ8bEVM3rxL713YB$agv/1jN5Xqu6uAIa5Zbe2Q474qQ7p91EuybfmX1SDPE=",
+        "last_login": "2026-04-09T14:22:34.490Z",
+        "is_superuser": false,
+        "username": "0991112233",
+        "first_name": "Test",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-04-09T14:22:07.750Z",
+        "phone_number": "0991112233",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "grooming.client",
+    "pk": 8,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$L3lvs3kE0TCMTQ3JdrvS7D$BQ5FlYY0+H5BaRcPWK4K1yhgvaULLEvyGhREH474z2E=",
+        "last_login": "2026-04-09T14:29:08.138Z",
+        "is_superuser": false,
+        "username": "0631112233",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-04-09T14:29:07.957Z",
+        "phone_number": "0631112233",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "grooming.pet",
+    "pk": 1,
+    "fields": {
+        "client": 4,
+        "name": "Собака",
+        "pet_type": "dog",
+        "breed": "Овчарка"
+    }
+},
+{
+    "model": "grooming.pet",
+    "pk": 2,
+    "fields": {
+        "client": 6,
+        "name": "Какаято кошка",
+        "pet_type": "cat",
+        "breed": "Сиамская"
+    }
+},
+{
+    "model": "grooming.pet",
+    "pk": 3,
+    "fields": {
+        "client": 6,
+        "name": "Еще какаято кошка",
+        "pet_type": "cat",
+        "breed": "Камышовая"
+    }
+},
+{
+    "model": "grooming.pet",
+    "pk": 4,
+    "fields": {
+        "client": 5,
+        "name": "Дерзкий",
+        "pet_type": "dog",
+        "breed": "Дог"
+    }
+},
+{
+    "model": "grooming.pet",
+    "pk": 5,
+    "fields": {
+        "client": 2,
+        "name": "Быстрый",
+        "pet_type": "dog",
+        "breed": "Хаски"
+    }
+},
+{
+    "model": "grooming.pet",
+    "pk": 6,
+    "fields": {
+        "client": 3,
+        "name": "Монстр",
+        "pet_type": "dog",
+        "breed": "Чихуа"
+    }
+},
+{
+    "model": "grooming.pet",
+    "pk": 7,
+    "fields": {
+        "client": 1,
+        "name": "Цезарь",
+        "pet_type": "dog",
+        "breed": "хаски"
+    }
+},
+{
+    "model": "grooming.groomer",
+    "pk": 1,
+    "fields": {
+        "first_name": "Специалист",
+        "last_name": "1",
+        "description": "Чтото умеет",
+        "service": [
+            2,
+            1
+        ]
+    }
+},
+{
+    "model": "grooming.groomer",
+    "pk": 2,
+    "fields": {
+        "first_name": "Специалист",
+        "last_name": "2",
+        "description": "Чуть больше умеет",
+        "service": [
+            2,
+            5,
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "grooming.groomer",
+    "pk": 3,
+    "fields": {
+        "first_name": "Специалист",
+        "last_name": "3",
+        "description": "Все умеет",
+        "service": [
+            2,
+            5,
+            6,
+            3,
+            1,
+            4
+        ]
+    }
+},
+{
+    "model": "grooming.service",
+    "pk": 1,
+    "fields": {
+        "type": "Стрижка",
+        "price": "50.00",
+        "short_description": "Професійна стрижка відповідно до породи",
+        "description": "Стрижка виконується з урахуванням стандартів породи або побажань власника. Забезпечує охайний вигляд, комфорт та легкість у догляді за шерстю."
+    }
+},
+{
+    "model": "grooming.service",
+    "pk": 2,
+    "fields": {
+        "type": "Вычесывание",
+        "price": "100.00",
+        "short_description": "Видалення зайвої шерсті та запобігання ковтунам",
+        "description": "Процедура вичісування допомагає позбутися відмерлої шерсті, запобігти утворенню ковтунів та покращити стан шкіри. Особливо актуально в період линьки."
+    }
+},
+{
+    "model": "grooming.service",
+    "pk": 3,
+    "fields": {
+        "type": "Купание",
+        "price": "70.00",
+        "short_description": "Дбайливе миття з використанням професійних засобів",
+        "description": "Купання із застосуванням спеціалізованих шампунів та кондиціонерів, підібраних під тип шерсті. Включає сушку та легке розчісування для доглянутого вигляду."
+    }
+},
+{
+    "model": "grooming.service",
+    "pk": 4,
+    "fields": {
+        "type": "Стрижка когтей",
+        "price": "30.00",
+        "short_description": "Акуратне підстригання кігтів без стресу",
+        "description": "Безпечне та делікатне підстригання кігтів із урахуванням анатомічних особливостей тварини. Процедура проводиться швидко та безболісно, з мінімальним стресом для улюбленця."
+    }
+},
+{
+    "model": "grooming.service",
+    "pk": 5,
+    "fields": {
+        "type": "Гигиена",
+        "price": "60.00",
+        "short_description": "Базові гігієнічні процедури для здоров’я тварини",
+        "description": "Послуга включає чистку вух, обробку очей, підстригання кігтів та інші необхідні гігієнічні процедури. Рекомендується для регулярного догляду та профілактики захворювань."
+    }
+},
+{
+    "model": "grooming.service",
+    "pk": 6,
+    "fields": {
+        "type": "Комплексный уход",
+        "price": "250.00",
+        "short_description": "Повний догляд за улюбленцем: миття, сушка, стрижка та гігієна",
+        "description": "Комплексна процедура догляду включає миття професійними засобами, сушку, повноцінну стрижку відповідно до породи, обробку кігтів, вух та гігієнічні процедури. Ідеальний варіант для підтримання здоров’я та гарного вигляду вашого улюбленця."
+    }
+},
+{
+    "model": "grooming.appointment",
+    "pk": 1,
+    "fields": {
+        "pet": 2,
+        "groomer": 1,
+        "date_time": "2026-04-07T15:27:12Z",
+        "is_completed": true,
+        "service": [
+            2,
+            1
+        ]
+    }
+},
+{
+    "model": "grooming.appointment",
+    "pk": 2,
+    "fields": {
+        "pet": 4,
+        "groomer": 2,
+        "date_time": "2026-04-15T10:00:00Z",
+        "is_completed": false,
+        "service": [
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "grooming.appointment",
+    "pk": 3,
+    "fields": {
+        "pet": 7,
+        "groomer": 3,
+        "date_time": "2026-04-12T09:00:00Z",
+        "is_completed": false,
+        "service": [
+            2,
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "grooming.guestquickrequest",
+    "pk": 1,
+    "fields": {
+        "phone_number": "0771112233",
+        "name": "Тест",
+        "pet_type": "dog",
+        "breed": "Сембернар",
+        "created_at": "2026-04-09T20:24:35.311Z",
+        "is_processed": true
+    }
+},
+{
+    "model": "grooming.guestquickrequest",
+    "pk": 2,
+    "fields": {
+        "phone_number": "0931234567",
+        "name": "Имя",
+        "pet_type": "cat",
+        "breed": "Сиамец",
+        "created_at": "2026-04-10T18:03:41.327Z",
+        "is_processed": false
+    }
+}
+]
