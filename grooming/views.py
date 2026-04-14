@@ -64,40 +64,48 @@ class AppointmentFormSaveMixin:
         return super().form_valid(form)
 
 
-def index(request):
-    our_services = Service.objects.all()
-    our_works = Pet.objects.filter(
-        appointments__is_completed=True
-    ).distinct()
-    form = GuestForm
-    context = {
-        "our_services": our_services,
-        "our_works": our_works,
-        "form": form,
-    }
-    if request.user.is_authenticated:
-        client = request.user
-        client_completed_appointments = Appointment.objects.filter(
-            pet__client=client, is_completed=True
-        ).count()
-        client_incompleted_appointments = Appointment.objects.filter(
-            pet__client=client, is_completed=False
-        ).count()
-        context.update(
-            {
-                "client_completed_appointments":
-                    client_completed_appointments,
-                "client_incompleted_appointments":
-                    client_incompleted_appointments,
-            }
-        )
+class IndexView(TemplateView):
+    template_name = "grooming/index.html"
+    form_class = GuestForm
     success_url = reverse_lazy("grooming:index")
-    if request.method == "POST":
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        our_services = Service.objects.all()
+        our_works = Pet.objects.filter(
+            appointments__is_completed=True
+        ).distinct()
+        client = self.request.user
+        form = GuestForm()
+        context["our_services"] = our_services
+        context["our_works"] = our_works
+        context["client"] = client
+        context["form"] = form
+        if client.is_authenticated:
+            client_completed_appointments = Appointment.objects.filter(
+                pet__client=client, is_completed=True
+            ).count()
+            client_incompleted_appointments = Appointment.objects.filter(
+                pet__client=client, is_completed=False
+            ).count()
+            context.update(
+                {
+                    "client_completed_appointments":
+                        client_completed_appointments,
+                    "client_incompleted_appointments":
+                        client_incompleted_appointments,
+                }
+            )
+        return context
+
+    def post(self, request, *args, **kwargs):
         form = GuestForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(success_url)
-    return render(request, "grooming/index.html", context=context)
+            return HttpResponseRedirect(reverse_lazy("grooming:index"))
+        context = self.get_context_data(**kwargs)
+        context["form"] = form
+        return render(request, self.template_name, context)
 
 
 class ServiceListView(SearchMixin, generic.ListView):

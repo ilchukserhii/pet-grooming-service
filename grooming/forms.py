@@ -13,6 +13,9 @@ from grooming.models import (
 )
 
 
+Client = get_user_model()
+
+
 def clean_phone_number(phone: str) -> str:
     if not phone:
         return phone
@@ -27,7 +30,7 @@ class ClientCreateForm(UserCreationForm):
     phone_number = forms.CharField(max_length=10, required=True)
 
     class Meta(UserCreationForm.Meta):
-        model = get_user_model()
+        model = Client
         fields = ("phone_number", "first_name", "last_name", "email")
 
     def clean_phone_number(self):
@@ -39,7 +42,7 @@ class ClientUpdateForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=10, required=True)
 
     class Meta:
-        model = get_user_model()
+        model = Client
         fields = ["first_name", "last_name", "email", "phone_number"]
 
     def clean_phone_number(self):

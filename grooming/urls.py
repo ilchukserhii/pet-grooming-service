@@ -1,7 +1,7 @@
 from django.urls import path
 
 from grooming.views import (
-    index,
+    IndexView,
     ServiceListView,
     GroomerListView,
     CabinetView,
@@ -15,7 +15,7 @@ from grooming.views import (
 )
 
 urlpatterns = [
-    path("", index, name="index"),
+    path("", IndexView.as_view(), name="index"),
     path("services/", ServiceListView.as_view(), name="service-list"),
     path("groomers/", GroomerListView.as_view(), name="groomer-list"),
     path("create_user/", ClientCreateView.as_view(), name="create-user"),
