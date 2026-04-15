@@ -44,12 +44,17 @@ pet_grooming_service/
 
 ## Demo
 ![demo.png](demo.png)
-
+## Live Demo
+https://grooming-service-95kk.onrender.com/
 
 ## Running Tests
 ```bash
 python manage.py test
 ```
+
+## Test User
+login: 0771112233
+password: user12345
 
 ## Author
 
