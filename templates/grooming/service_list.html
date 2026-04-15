@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="mb-4">
+            <h1 class="mb-1">Наші послуги</h1>
+            <p class="text-muted mb-0">
+              Оберіть догляд, який найкраще підійде вашому улюбленцю
+            </p>
+          </div>
+          <div class="mb-4">
+            <h4 class="mb-3">Пошук</h4>
+
+            <form action="" method="get">
+              <div class="d-flex gap-2 align-items-start">
+                <div class="flex-grow-1">
+                  {{ search_form.search|as_crispy_field }}
+                </div>
+                <button type="submit" class="btn btn-secondary">
+                  🔎 Пошук
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+              {% for service in services %}
+                <div class="p-4 {% if not forloop.last %}border-bottom{% endif %}">
+                  <div class="row align-items-center g-4">
+                    <div class="col-md-3 col-lg-2">
+                      <div
+                          class="bg-secondary-subtle border rounded-3 d-flex align-items-center justify-content-center text-muted fw-semibold"
+                          style="height: 120px;"
+                      >
+                        Фото
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-7">
+                      <h3 class="h4 mb-2">{{ service.type }}</h3>
+
+                      {% if service.short_description %}
+                        <p class="mb-2 text-muted">
+                          {{ service.short_description }}
+                        </p>
+                      {% endif %}
+
+                      {% if service.description %}
+                        <p class="mb-0 small text-secondary">
+                          {{ service.description|truncatewords:24 }}
+                        </p>
+                      {% endif %}
+                    </div>
+
+                    <div class="col-md-3 col-lg-3 text-md-end">
+                      <div class="fs-4 fw-bold mb-3">{{ service.price }} грн</div>
+                      {% if user.is_authenticated %}
+                        <a href="{% url "grooming:cabinet-create-appointment" %}?service={{ service.id }}"
+                           class="btn btn-outline-primary">
+                          Записатися
+                        </a>
+                      {% else %}
+                        <a href="{% url "login" %}" class="btn btn-outline-primary">
+                          Записатися
+                        </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+                <div class="p-4 text-center text-muted">
+                  Поки що немає доступних послуг
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="d-flex justify-content-center mt-4">
+            {% include "includes/pagination.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
