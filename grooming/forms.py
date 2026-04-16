@@ -108,15 +108,20 @@ class GuestForm(forms.ModelForm):
         max_length=10,
         label="Телефон",
         required=True)
+    pet_type = forms.ChoiceField(
+        choices=[("", "Оберіть тип улюбленця")] + list(GuestQuickRequest.PetType.choices),
+        required=True,
+        label="Тип улюбленця",
+    )
 
     class Meta:
         model = GuestQuickRequest
         fields = ["phone_number", "name", "pet_type", "breed"]
         labels = {
             "name": "Ім'я",
-            "pet_type": "Тип улюбленця",
             "breed": "Порода",
         }
+
 
     def clean_phone_number(self):
         phone = self.cleaned_data.get("phone_number")
