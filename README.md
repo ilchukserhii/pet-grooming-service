@@ -7,7 +7,7 @@ A full-featured Django web application for managing pet grooming services, inclu
 ## Installation
 
 ```bash
-git clone https://github.com/your-repo.git
+git clone https://github.com/ilchukserhii/pet-grooming-service.git
 cd pet_grooming_service
 
 python -m venv venv
